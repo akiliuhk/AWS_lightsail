@@ -13,14 +13,28 @@ https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html
 
 ```
 $ aws configure
-AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
-AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+AWS Access Key ID [None]: AKIAIOSF-----EXAMPLE
+AWS Secret Access Key [None]: wJalrXUtnFEMI/----------------EXAMPLEKEY
 Default region name [None]: ap-southeast-1
 Default output format [None]: yaml
 ```
 
 ## AWS Lightsail CLI Reference
 https://awscli.amazonaws.com/v2/documentation/api/latest/reference/lightsail/index.html#
+
+
+### download AWS Lightsail default-key-pair
+```
+$ aws lightsail download-default-key-pair --output text --query publicKeyBase64 > ~/.ssh/lightsail-default-key.pub
+chmod 644 ~/.ssh/lightsail-default-key.pub
+
+$ aws lightsail download-default-key-pair --output text --query privateKeyBase64 > ~/.ssh/lightsail-default-key
+chmod 600 ~/.ssh/lightsail-default-key
+```
+
+### SSH into the AWS Lightsail VM
+
+ssh -i LightsailDefaultKey-ap-southeast-1.pem ec2-user@<IP-address>
 
 
 ## Objective
