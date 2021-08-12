@@ -32,6 +32,10 @@ $ aws lightsail download-default-key-pair --output text --query privateKeyBase64
 chmod 600 ~/.ssh/lightsail-default-key
 ```
 
+### SSH into the AWS Lightsail VM
+
+ssh -i LightsailDefaultKey-ap-southeast-1.pem -o ec2-user@<IP-address>
+
 
 ## Objective
 to kick start a Rancher demo environment for workshop.
