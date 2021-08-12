@@ -1,11 +1,23 @@
 # Brief
-this is a pre-defined aws lightsail bash script to provision AWS Lightsail environment 
+this is a pre-defined AWS Lightsail script to provision instances for Rancher demo 
 
 ## AWS CLI installation 
+
+AWS CLI version 2 installation instructions:
+
 https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html
 
-### AWS CLI configure credentials
+
+## AWS CLI configure credentials
 https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html 
+
+```
+$ aws configure
+AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
+AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+Default region name [None]: us-west-2
+Default output format [None]: json
+```
 
 ## AWS Lightsail CLI Reference
 https://awscli.amazonaws.com/v2/documentation/api/latest/reference/lightsail/index.html#
