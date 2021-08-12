@@ -4,57 +4,43 @@ this is a pre-defined aws lightsail bash script to provision AWS Lightsail envir
 ## AWS CLI installation 
 https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html
 
+### AWS CLI configure credentials
+https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html 
+
 ## AWS Lightsail CLI Reference
 https://awscli.amazonaws.com/v2/documentation/api/latest/reference/lightsail/index.html#
 
 
-### Objective
+## Objective
 to kick start a Rancher demo environment for workshop.
 
-the script will provision on Singapore ap-southeast-1 with ***medium size (2 CPU,4G RAM,80G SSD)*** and OS ***opensuse_15_2*** also tags key=input namespace 
+the script will provision 5 VM on Singapore ap-southeast-1 with ***medium size (2 CPU,4G RAM,80G SSD)*** and ***opensuse_15_2*** also tags namespace 
 
-STD-rancher
-STD-rke-m1
-STD-rke-w1
-STD-rke-w2
-STD-rke-w3
+## pre-defined AWS Lightsail VM naming convention
 
-### aws_get_vm
-```
-aws lightsail get-instances --region ap-southeast-1 --query 'instances[].{publicIpAddress:publicIpAddress,privateIpAddress:privateIpAddress,VMname:name}' --output table --no-cli-pager
-```
-### aws_create_vm
-the create-instance 
+for example to run `./aws_create_vm.sh std01`
 
-```
-aws lightsail create-instances --region ap-southeast-1 --instance-names  {$STD-rancher,$STD-rke-m1,$STD-rke-w1,$STD-rke-w2,$STD-rke-w3} --availability-zone ap-southeast-1a --blueprint-id opensuse_15_2 --bundle-id medium_2_0 --ip-address-type ipv4 --user-data "systemctl enable docker;systemctl start docker;" --tags key=$STD --no-cli-pager
-```
-### aws_open_vm_ports
-```
-### open ports for AWS Lightsail VM
-aws lightsail put-instance-public-ports \
---port-infos \
-"fromPort=22,toPort=22,protocol=TCP" \
-"fromPort=80,toPort=80,protocol=TCP" \
-"fromPort=443,toPort=443,protocol=TCP" \
-"fromPort=8,toPort=-1,protocol=ICMP" \
---instance-name $STD-rancher --output yaml --no-cli-pager
-```
-### aws_stop_vm
-```
-aws lightsail stop-instance --instance-name $STD-rancher --output yaml --no-cli-pager
-```
-### aws_start
-```
-aws lightsail start-instance --instance-name $STD-rancher --output yaml --no-cli-pager
-```
-### aws_delete_vm
-```
-aws lightsail delete-instance --region ap-southeast-1  --instance-name $STD-rancher --output yaml --no-cli-pager
-```
+you will see AWS Lightsail started 5 VM with the input namespace std01
 
+std01-rancher \
+std01-rke-m1 \
+std01-rke-w1 \
+std01-rke-w2 \
+std01-rke-w3 
+
+### aws_list.sh
+
+List AWS Lightsail VM , private IP and public IP
+
+### aws_provision.sh
+
+Provision instances into AWS Lightsail for Rancher demo
+
+### aws_cleanup.sh
+
+Clean up Rancher demo instances on AWS Lightsail instances
 
 ### example to start VM with namespace std01
 ```
-./aws_start_VM.sh std01
+./aws_provision.sh std01
 ```
