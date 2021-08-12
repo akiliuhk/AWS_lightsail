@@ -1,5 +1,9 @@
-# Brief
+# Objective
 this is a pre-defined AWS Lightsail script to provision instances for Rancher demo 
+
+to kick start a Rancher demo environment for workshop.
+
+the script will provision 5 VM on Singapore ap-southeast-1 with ***medium size (2 CPU,4G RAM,80G SSD)*** and ***opensuse_15_2*** also tags namespace 
 
 ## AWS CLI installation 
 
@@ -37,10 +41,7 @@ chmod 600 ~/.ssh/lightsail-default-key
 ssh -i LightsailDefaultKey-ap-southeast-1.pem ec2-user@<IP-address>
 
 
-## Objective
-to kick start a Rancher demo environment for workshop.
 
-the script will provision 5 VM on Singapore ap-southeast-1 with ***medium size (2 CPU,4G RAM,80G SSD)*** and ***opensuse_15_2*** also tags namespace 
 
 ## Example to provision VM with namespace std01
 
