@@ -49,3 +49,8 @@ aws lightsail put-instance-public-ports \
 "fromPort=8,toPort=-1,protocol=ICMP" \
 --instance-name $STD-rke-w3 --output yaml --no-cli-pager
 
+### download default-key-pair
+aws lightsail download-default-key-pair --output text --query publicKeyBase64 > ~/.ssh/lightsail-default-key.pub
+chmod 644 ~/.ssh/lightsail-default-key.pub
+aws lightsail download-default-key-pair --output text --query privateKeyBase64 > ~/.ssh/lightsail-default-key
+chmod 600 ~/.ssh/lightsail-default-key
