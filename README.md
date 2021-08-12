@@ -24,11 +24,13 @@ https://awscli.amazonaws.com/v2/documentation/api/latest/reference/lightsail/ind
 
 
 ### download AWS Lightsail default-key-pair
-aws lightsail download-default-key-pair --output text --query publicKeyBase64 > ~/.ssh/lightsail-default-key.pub
+```
+$ aws lightsail download-default-key-pair --output text --query publicKeyBase64 > ~/.ssh/lightsail-default-key.pub
 chmod 644 ~/.ssh/lightsail-default-key.pub
-aws lightsail download-default-key-pair --output text --query privateKeyBase64 > ~/.ssh/lightsail-default-key
-chmod 600 ~/.ssh/lightsail-default-key
 
+$ aws lightsail download-default-key-pair --output text --query privateKeyBase64 > ~/.ssh/lightsail-default-key
+chmod 600 ~/.ssh/lightsail-default-key
+```
 
 
 ## Objective
