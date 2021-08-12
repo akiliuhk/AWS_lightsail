@@ -16,10 +16,13 @@ to kick start a Rancher demo environment for workshop.
 
 the script will provision 5 VM on Singapore ap-southeast-1 with ***medium size (2 CPU,4G RAM,80G SSD)*** and ***opensuse_15_2*** also tags namespace 
 
-## pre-defined AWS Lightsail VM naming convention
+## example to start VM with namespace std01
 
-for example to run `./aws_create_vm.sh std01`
+```
+./aws_provision.sh std01
+```
 
+this is an example to run `./aws_create_vm.sh std01`
 you will see AWS Lightsail started 5 VM with the input namespace std01
 
 std01-rancher \
@@ -40,7 +43,3 @@ Provision instances into AWS Lightsail for Rancher demo
 
 Clean up Rancher demo instances on AWS Lightsail instances
 
-### example to start VM with namespace std01
-```
-./aws_provision.sh std01
-```
