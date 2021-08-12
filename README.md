@@ -16,7 +16,7 @@ to kick start a Rancher demo environment for workshop.
 
 the script will provision 5 VM on Singapore ap-southeast-1 with ***medium size (2 CPU,4G RAM,80G SSD)*** and ***opensuse_15_2*** also tags namespace 
 
-## example to start VM with namespace std01
+## Example to start VM with namespace std01
 
 ```
 ./aws_provision.sh std01
