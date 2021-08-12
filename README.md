@@ -8,8 +8,10 @@ https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html
 https://awscli.amazonaws.com/v2/documentation/api/latest/reference/lightsail/index.html#
 
 
-### Scope
-to kick start 1 Rancher Srv + 1 RKE downstream Cluster (1 master node and 3 worker nodes) on Singapore ap-southeast-1 with ***medium size (2 CPU,4G RAM,80G SSD)*** and OS ***opensuse_15_2*** with tags key=input namespace
+### Objective
+to kick start a Rancher demo environment for workshop.
+
+the script will provision on Singapore ap-southeast-1 with ***medium size (2 CPU,4G RAM,80G SSD)*** and OS ***opensuse_15_2*** also tags key=input namespace 
 
 STD-rancher
 STD-rke-m1
@@ -25,7 +27,7 @@ aws lightsail get-instances --region ap-southeast-1 --query 'instances[].{public
 the create-instance 
 
 ```
-aws lightsail create-instances --region ap-southeast-1 --instance-names  {$STD-rancher,$STD-rke-m1,$STD-rke-w1,$STD-rke-w2,$STD-rke-w3 } --availability-zone ap-southeast-1a --blueprint-id opensuse_15_2 --bundle-id medium_2_0 --ip-address-type ipv4 --user-data "systemctl enable docker;systemctl start docker;" --tags key=$STD --no-cli-pager
+aws lightsail create-instances --region ap-southeast-1 --instance-names  {$STD-rancher,$STD-rke-m1,$STD-rke-w1,$STD-rke-w2,$STD-rke-w3} --availability-zone ap-southeast-1a --blueprint-id opensuse_15_2 --bundle-id medium_2_0 --ip-address-type ipv4 --user-data "systemctl enable docker;systemctl start docker;" --tags key=$STD --no-cli-pager
 ```
 ### aws_open_vm_ports
 ```
