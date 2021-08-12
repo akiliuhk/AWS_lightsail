@@ -1,8 +1,8 @@
 #!/bin/bash -ex
 
-export STD=std01
+export STD=$1
 
-
+### open ports for AWS Lightsail VM
 aws lightsail put-instance-public-ports \
 --port-infos \
 "fromPort=22,toPort=22,protocol=TCP" \

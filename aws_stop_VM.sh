@@ -1,7 +1,8 @@
 #!/bin/bash -ex
 
-export STD=std01
+export STD=$1
 
+### stop AWS Lightsail VM
 aws lightsail stop-instance --instance-name $STD-rancher --output yaml --no-cli-pager
 
 aws lightsail stop-instance --instance-name $STD-rke-m1 --output yaml --no-cli-pager

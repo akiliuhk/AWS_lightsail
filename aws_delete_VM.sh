@@ -1,8 +1,8 @@
 #!/bin/bash -ex
 
-export STD=std01
+export STD=$1
 
-### delete AWS Lightsail instance
+### delete AWS Lightsail VM
 aws lightsail delete-instance --region ap-southeast-1  --instance-name $STD-rancher --output yaml --no-cli-pager
 
 aws lightsail delete-instance --region ap-southeast-1  --instance-name $STD-rke-m1 --output yaml --no-cli-pager

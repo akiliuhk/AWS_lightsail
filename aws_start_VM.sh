@@ -1,7 +1,8 @@
-#!/bin/bash -ex
+#!/bin/bash
 
-export STD=std01
+export STD=$1
 
+### start AWS Lightsail VM
 aws lightsail start-instance --instance-name $STD-rancher --output yaml --no-cli-pager
 
 aws lightsail start-instance --instance-name $STD-rke-m1 --output yaml --no-cli-pager
