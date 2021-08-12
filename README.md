@@ -25,7 +25,7 @@ Default output format [None]: yaml
 https://awscli.amazonaws.com/v2/documentation/api/latest/reference/lightsail/index.html#
 
 
-### download AWS Lightsail default-key-pair
+### Download AWS Lightsail default-key-pair
 ```
 $ aws lightsail download-default-key-pair --output text --query publicKeyBase64 > ~/.ssh/lightsail-default-key.pub
 chmod 644 ~/.ssh/lightsail-default-key.pub
