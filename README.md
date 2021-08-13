@@ -36,7 +36,7 @@ chmod 600 ~/.ssh/lightsail-default-key
 
 ### SSH into the AWS Lightsail VM
 
-ssh -i LightsailDefaultKey-ap-southeast-1.pem ec2-user@<IP-address>
+ssh -i LightsailDefaultKey-ap-southeast-1.pem ec2-user@< IP-address >
 
 
 
