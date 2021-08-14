@@ -1,7 +1,5 @@
 # Objective
-this is a pre-defined AWS Lightsail script to provision instances for Rancher demo 
-
-to kick start a Rancher demo environment for workshop.
+this is a pre-defined AWS Lightsail script to provision instances to kick start a Rancher demo environment for workshop.
 
 the script will provision 5 VM on Singapore ap-southeast-1 with ***medium size (2 CPU,4G RAM,80G SSD)*** and ***opensuse_15_2*** also tags namespace 
 
@@ -27,7 +25,7 @@ Default output format [None]: yaml
 https://awscli.amazonaws.com/v2/documentation/api/latest/reference/lightsail/index.html#
 
 
-### download AWS Lightsail default-key-pair
+### Download AWS Lightsail default-key-pair
 ```
 $ aws lightsail download-default-key-pair --output text --query publicKeyBase64 > ~/.ssh/lightsail-default-key.pub
 chmod 644 ~/.ssh/lightsail-default-key.pub
@@ -38,8 +36,7 @@ chmod 600 ~/.ssh/lightsail-default-key.pem
 
 ### SSH into the AWS Lightsail VM
 
-
-ssh -i ~/.ssh/lightsail-default-key.pem -o StrictHostKeyChecking=noec2-user@<IP-address>
+ssh -i ~/.ssh/lightsail-default-key.pem -o StrictHostKeyChecking=no ec2-user@< IP-address >
 
 
 ## Example to provision VM with namespace std01
