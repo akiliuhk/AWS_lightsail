@@ -32,15 +32,14 @@ https://awscli.amazonaws.com/v2/documentation/api/latest/reference/lightsail/ind
 $ aws lightsail download-default-key-pair --output text --query publicKeyBase64 > ~/.ssh/lightsail-default-key.pub
 chmod 644 ~/.ssh/lightsail-default-key.pub
 
-$ aws lightsail download-default-key-pair --output text --query privateKeyBase64 > ~/.ssh/lightsail-default-key
-chmod 600 ~/.ssh/lightsail-default-key
+$ aws lightsail download-default-key-pair --output text --query privateKeyBase64 > ~/.ssh/lightsail-default-key.pem
+chmod 600 ~/.ssh/lightsail-default-key.pem
 ```
 
 ### SSH into the AWS Lightsail VM
 
-ssh -i LightsailDefaultKey-ap-southeast-1.pem ec2-user@<IP-address>
 
-
+ssh -i ~/.ssh/lightsail-default-key.pem -o StrictHostKeyChecking=noec2-user@<IP-address>
 
 
 ## Example to provision VM with namespace std01
