@@ -12,3 +12,6 @@ aws lightsail delete-instance --region ap-southeast-1  --instance-name $STD-rke-
 aws lightsail delete-instance --region ap-southeast-1  --instance-name $STD-rke-w2 --output yaml --no-cli-pager
 
 aws lightsail delete-instance --region ap-southeast-1  --instance-name $STD-rke-w3 --output yaml --no-cli-pager
+
+
+rm -fr ~/$1-lab-info/
