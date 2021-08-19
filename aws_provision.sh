@@ -103,8 +103,8 @@ aws lightsail put-instance-public-ports \
 ### get AWS Lightsail instance
 function get-instances(){
 aws lightsail get-instances --region ap-southeast-1 \
-    --query 'instances[].{publicIpAddress:publicIpAddress,privateIpAddress:privateIpAddress,VMname:name,state:state.name}' \
-    --output table --no-cli-pager > ~/$1-lab-info/$1-get-instances.txt
+    --query 'instances[].{publicIpAddress:publicIpAddress,privateIpAddress:privateIpAddress,$1-VM:name,state:state.name}' \
+    --output table --no-cli-pager | grep $1 > ~/$1-lab-info/$1-get-instances.txt
 }
 
 ### ssh command into file

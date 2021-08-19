@@ -1,20 +1,21 @@
 #!/bin/bash -ex
 
-export STD=$1
-
-rm -fr ~/$1-lab-info/
-aws lightsail delete-key-pair --key-pair-name $1-default-key --output yaml --no-cli-pager
-
 ### delete AWS Lightsail VM
-aws lightsail delete-instance --region ap-southeast-1  --instance-name $STD-rancher --output yaml --no-cli-pager
+function delete-instance(){
 
-aws lightsail delete-instance --region ap-southeast-1  --instance-name $STD-rke-m1 --output yaml --no-cli-pager
+local tags=$1
+rm -fr ~/$tags-lab-info/
+aws lightsail delete-key-pair --key-pair-name $tags-default-key --output yaml --no-cli-pager
 
-aws lightsail delete-instance --region ap-southeast-1  --instance-name $STD-rke-w1 --output yaml --no-cli-pager
+aws lightsail delete-instance --region ap-southeast-1  --instance-name $tags-rancher --output yaml --no-cli-pager
 
-aws lightsail delete-instance --region ap-southeast-1  --instance-name $STD-rke-w2 --output yaml --no-cli-pager
+aws lightsail delete-instance --region ap-southeast-1  --instance-name $tags-rke-m1 --output yaml --no-cli-pager
 
-aws lightsail delete-instance --region ap-southeast-1  --instance-name $STD-rke-w3 --output yaml --no-cli-pager
+aws lightsail delete-instance --region ap-southeast-1  --instance-name $tags-rke-w1 --output yaml --no-cli-pager
 
+aws lightsail delete-instance --region ap-southeast-1  --instance-name $tags-rke-w2 --output yaml --no-cli-pager
 
+aws lightsail delete-instance --region ap-southeast-1  --instance-name $tags-rke-w3 --output yaml --no-cli-pager
+}
 
+delete-instance $1
