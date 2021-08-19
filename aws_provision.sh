@@ -54,6 +54,7 @@ aws lightsail create-instances \
   --key-pair-name $tags-default-key \
   --user-data "systemctl enable docker;systemctl start docker;hostnamectl set-hostname $VMname1;" \
   --tags key=$tags \
+  --output text \
   --no-cli-pager
 }
 #   --bundle-id nano_2_0 \
@@ -89,7 +90,7 @@ aws lightsail put-instance-public-ports \
 "fromPort=80,toPort=80,protocol=TCP" \
 "fromPort=443,toPort=443,protocol=TCP" \
 "fromPort=8,toPort=-1,protocol=ICMP" \
---instance-name $VMname --output yaml --no-cli-pager
+--instance-name $VMname --output text --no-cli-pager
 }
 
 
@@ -98,7 +99,7 @@ function get-instances(){
 local tags=$1
 aws lightsail get-instances --region ap-southeast-1 \
     --query "instances[].{$tags:name,publicIpAddress:publicIpAddress,privateIpAddress:privateIpAddress,state:state.name}" \
-    --output table --no-cli-pager | grep $tags > ~/$tags-lab-info/$tags-get-instances.txt
+    --output text --no-cli-pager | grep $tags > ~/$tags-lab-info/$tags-get-instances.txt
 }
 
 ### ssh command into file
