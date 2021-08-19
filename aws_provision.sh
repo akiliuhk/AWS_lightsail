@@ -107,7 +107,8 @@ function ssh-file(){
 local tags=$1
 local ip=`aws lightsail get-instance --instance-name $2 --query instance.publicIpAddress --no-cli-pager`
     echo "ssh -i ~/$tags-lab-info/$tags-default-key.pem -o StrictHostKeyChecking=no ec2-user@"$ip > ~/$tags-lab-info/ssh-$2.sh
-    chmod 755 ~/$tags-lab-info/ssh-$2.sh                   
+    chmod 755 ~/$tags-lab-info/ssh-$2.sh
+    tar -cvzf $tags-lab-info.tar.gz ~/$tags-lab-info                    
 }
 
 main $1
