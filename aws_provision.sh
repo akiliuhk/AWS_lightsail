@@ -1,31 +1,45 @@
 #!/bin/bash
 
+
+### get AWS Lightsail bundles
+#aws lightsail get-bundles --region ap-southeast-1 --query 'bundles[].{price:price,cpuCount:cpuCount,ramSizeInGb:ramSizeInGb,diskSizeInGb:diskSizeInGb,bundleId:bundleId,instanceType:instanceType,supportedPlatforms:supportedPlatforms[0]}' --output table  --no-cli-pager
+
+### get AWS lightsail blueprint
+#aws lightsail get-blueprints --region ap-southeast-1 --query 'blueprints[].{blueprintId:blueprintId,name:name,group:group,productUrl:productUrl,platform:platform}' --output table --no-cli-pager
+
 ### main function
 function main(){
     
 local tags=$1
+
 create-key-pair $tags
 create-instances $tags-rancher $tags-rke-m1 $tags-rke-w1 $tags-rke-w2 $tags-rke-w3 $tags
+#create-instance $tags-rancher $tags
 check-instance-state $tags
 put-instance-ports $tags-rancher
 put-instance-ports $tags-rke-m1
 put-instance-ports $tags-rke-w1
 put-instance-ports $tags-rke-w2
 put-instance-ports $tags-rke-w3
-download-key $tags
 ssh-file $tags $tags-rancher
-ssh-file $tags $tags-rke-m1
-ssh-file $tags $tags-rke-w1
-ssh-file $tags $tags-rke-w2
-ssh-file $tags $tags-rke-w3
+#ssh-file $tags $tags-rke-m1
+#ssh-file $tags $tags-rke-w1
+#ssh-file $tags $tags-rke-w2
+#ssh-file $tags $tags-rke-w3
 }
 
 
 ### create key pair for each $tag 
 function create-key-pair (){
 local tags=$1
+mkdir -p ~/$1-lab-info/
 
-  aws lightsail create-key-pair --key-pair-name $1-default-key --output yaml --no-cli-pager
+aws lightsail create-key-pair --key-pair-name $tags-default-key --output text --query privateKeyBase64 > ~/$tags-lab-info/$tags-default-key.pem
+chmod 600 ~/$tags-lab-info/$tags-default-key.pem
+
+#aws lightsail download-default-key-pair --output text --query publicKeyBase64 > ~/$1-lab-info/$1-default-key.pub
+#aws lightsail download-default-key-pair --output text --query privateKeyBase64 > ~/$1-lab-info/$1-default-key.pem
+
 }
 
 
@@ -38,17 +52,37 @@ local VMname4=$4
 local VMname5=$5
 local tags=$6
 
-  aws lightsail create-instances \
+aws lightsail create-instances \
     --region ap-southeast-1 \
     --instance-names {"$VMname1","$VMname2","$VMname3","$VMname4","$VMname5"} \
     --availability-zone ap-southeast-1a \
     --blueprint-id opensuse_15_2 \
     --bundle-id medium_2_0 \
     --ip-address-type ipv4 \
-    --key-pair-name $6-default-key \
+    --key-pair-name $tags-default-key \
     --user-data "systemctl enable docker;systemctl start docker;" \
-    --tags key=$tags --no-cli-pager | grep status
+    --tags key=$tags --no-cli-pager
 }
+
+### create AWS Lightsail VM
+function create-instance(){
+local VMname1=$1
+local tags=$2
+
+aws lightsail create-instances \
+    --region ap-southeast-1 \
+    --instance-names "$VMname1" \
+    --availability-zone ap-southeast-1a \
+    --blueprint-id opensuse_15_2 \
+    --bundle-id nano_2_0 \
+    --ip-address-type ipv4 \
+    --key-pair-name $tags-default-key \
+    --user-data "systemctl enable docker;systemctl start docker;" \
+    --tags key=$tags --no-cli-pager
+}
+
+#   --instance-names {"$VMname1","$VMname2","$VMname3","$VMname4","$VMname5"} \
+#   --bundle-id medium_2_0 \
 
 ### chekc if VM provision
 function check-instance-state(){
@@ -82,17 +116,9 @@ aws lightsail put-instance-public-ports \
 "fromPort=80,toPort=80,protocol=TCP" \
 "fromPort=443,toPort=443,protocol=TCP" \
 "fromPort=8,toPort=-1,protocol=ICMP" \
---instance-name $VMname --output yaml --no-cli-pager | grep status
+--instance-name $VMname --output yaml --no-cli-pager
 }
 
-### download default-key-pair
-
-function download-key(){
-aws lightsail download-default-key-pair --output text --query publicKeyBase64 > ~/$1-lab-info/$1-default-key.pub
-chmod 644 ~/$1-lab-info/$1-default-key.pub
-aws lightsail download-default-key-pair --output text --query privateKeyBase64 > ~/$1-lab-info/$1-default-key.pem
-chmod 600 ~/$1-lab-info/$1-default-key.pem
-}
 
 ### get AWS Lightsail instance
 function get-instances(){
@@ -105,7 +131,7 @@ aws lightsail get-instances --region ap-southeast-1 \
 function ssh-file(){
 local tags=$1
 local ip=`aws lightsail get-instance --instance-name $2 --query instance.publicIpAddress --no-cli-pager`
-    echo "ssh -i ~/$tags-lab-info/lightsail-default-key.pem -o StrictHostKeyChecking=no ec2-user@"$ip > ~/$tags-lab-info/ssh-$2.sh
+    echo "ssh -i ~/$tags-lab-info/$tags-default-key.pem -o StrictHostKeyChecking=no ec2-user@"$ip > ~/$tags-lab-info/ssh-$2.sh
     chmod 755 ~/$tags-lab-info/ssh-$2.sh                   
 }
 

@@ -1,0 +1,62 @@
+---------------------------------------------------------------------------------------------------------------
+|                                                 GetBundles                                                  |
++-----------------+-----------+---------------+---------------+--------+---------------+----------------------+
+|    bundleId     | cpuCount  | diskSizeInGb  | instanceType  | price  |  ramSizeInGb  | supportedPlatforms   |
++-----------------+-----------+---------------+---------------+--------+---------------+----------------------+
+|  nano_2_0       |  1        |  20           |  nano         |  3.5   |  0.5          |  LINUX_UNIX          |
+|  micro_2_0      |  1        |  40           |  micro        |  5.0   |  1.0          |  LINUX_UNIX          |
+|  small_2_0      |  1        |  60           |  small        |  10.0  |  2.0          |  LINUX_UNIX          |
+|  medium_2_0     |  2        |  80           |  medium       |  20.0  |  4.0          |  LINUX_UNIX          |
+|  large_2_0      |  2        |  160          |  large        |  40.0  |  8.0          |  LINUX_UNIX          |
+|  xlarge_2_0     |  4        |  320          |  xlarge       |  80.0  |  16.0         |  LINUX_UNIX          |
+|  2xlarge_2_0    |  8        |  640          |  2xlarge      |  160.0 |  32.0         |  LINUX_UNIX          |
+|  nano_win_2_0   |  1        |  30           |  nano         |  8.0   |  0.5          |  WINDOWS             |
+|  micro_win_2_0  |  1        |  40           |  micro        |  12.0  |  1.0          |  WINDOWS             |
+|  small_win_2_0  |  1        |  60           |  small        |  20.0  |  2.0          |  WINDOWS             |
+|  medium_win_2_0 |  2        |  80           |  medium       |  40.0  |  4.0          |  WINDOWS             |
+|  large_win_2_0  |  2        |  160          |  large        |  70.0  |  8.0          |  WINDOWS             |
+|  xlarge_win_2_0 |  4        |  320          |  xlarge       |  120.0 |  16.0         |  WINDOWS             |
+|  2xlarge_win_2_0|  8        |  640          |  2xlarge      |  240.0 |  32.0         |  WINDOWS             |
++-----------------+-----------+---------------+---------------+--------+---------------+----------------------+
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+|                                                                           GetBlueprints                                                                           |
++--------------------------------------+-----------------------+--------------------------------+-------------+-----------------------------------------------------+
+|              blueprintId             |         group         |             name               |  platform   |                     productUrl                      |
++--------------------------------------+-----------------------+--------------------------------+-------------+-----------------------------------------------------+
+|  windows_server_2019                 |  windows_2019         |  Windows Server 2019           |  WINDOWS    |  https://aws.amazon.com/marketplace/pp/B07QZ4XZ8F   |
+|  windows_server_2016                 |  windows_2016         |  Windows Server 2016           |  WINDOWS    |  https://aws.amazon.com/marketplace/pp/B01M7SJEU7   |
+|  windows_server_2012                 |  windows_2012         |  Windows Server 2012 R2        |  WINDOWS    |  https://aws.amazon.com/marketplace/pp/B00KQOWCAQ   |
+|  windows_server_2016_sql_2016_express|  windows_2016_sql_exp |  SQL Server 2016 Express       |  WINDOWS    |  https://aws.amazon.com/marketplace/pp/B01MAZHH98   |
+|  amazon_linux_2                      |  amazon_linux_2       |  Amazon Linux 2                |  LINUX_UNIX |  https://aws.amazon.com/amazon-linux-2/             |
+|  amazon_linux                        |  amazon-linux         |  Amazon Linux                  |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B00CIYTQTC   |
+|  ubuntu_20_04                        |  ubuntu_20            |  Ubuntu                        |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B087QQNGF1   |
+|  ubuntu_18_04                        |  ubuntu_18            |  Ubuntu                        |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B07CQ33QKV   |
+|  ubuntu_16_04_2                      |  ubuntu               |  Ubuntu                        |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B01JBL2M0O   |
+|  debian_10                           |  debian_10            |  Debian                        |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B0859NK4HC   |
+|  debian_9_13                         |  debian_9             |  Debian                        |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B073HW9SP3   |
+|  debian_8_7                          |  debian               |  Debian                        |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B00WUNJIEE   |
+|  freebsd_12                          |  freebsd              |  FreeBSD                       |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B07L6QV354   |
+|  opensuse_15_2                       |  opensuse             |  openSUSE                      |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B01N4R3GJI   |
+|  centos_8                            |  centos_8             |  CentOS                        |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B08KYLN2CG   |
+|  centos_7_2009_01                    |  centos               |  CentOS                        |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B00O7WM7QW   |
+|  wordpress                           |  wordpress            |  WordPress                     |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B00NN8Y43U   |
+|  wordpress_multisite                 |  wordpress_multisite  |  WordPress Multisite           |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B00NN8XE6S   |
+|  lamp_7                              |  lamp_7               |  LAMP (PHP 7)                  |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B072JNJZ5C   |
+|  nodejs                              |  node                 |  Node.js                       |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B00NNZUAKO   |
+|  joomla                              |  joomla               |  Joomla                        |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B00NNZUP54   |
+|  magento                             |  magento              |  Magento                       |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B00NNZTA6Y   |
+|  mean                                |  mean                 |  MEAN                          |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B00NO1HJ56   |
+|  drupal                              |  drupal               |  Drupal                        |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B00NNZSUMO   |
+|  gitlab                              |  gitlab               |  GitLab CE                     |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B00NNZU5PO   |
+|  redmine                             |  redmine              |  Redmine                       |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B00NNZUVHQ   |
+|  nginx                               |  nginx                |  Nginx                         |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B00NPHKI3Y   |
+|  ghost_bitnami                       |  ghost_bitnami        |  Ghost                         |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B00NPHLY8W   |
+|  django_bitnami                      |  django_bitnami       |  Django                        |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B00NNZTDNO   |
+|  prestashop_bitnami                  |  prestashop_bitnami   |  PrestaShop                    |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B00NPHLR4I   |
+|  plesk_ubuntu_18_0_34                |  plesk_ubuntu         |  Plesk Hosting Stack on Ubuntu |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B077MJL7Z2   |
+|  cpanel_whm_linux                    |  cpanel_whm_linux     |  cPanel & WHM for Linux        |  LINUX_UNIX |  https://aws.amazon.com/marketplace/pp/B07RRX2TVV   |
++--------------------------------------+-----------------------+--------------------------------+-------------+-----------------------------------------------------+
