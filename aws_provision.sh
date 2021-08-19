@@ -99,7 +99,7 @@ function get-instances(){
 local tags=$1
 aws lightsail get-instances --region ap-southeast-1 \
     --query "instances[].{$tags:name,publicIpAddress:publicIpAddress,privateIpAddress:privateIpAddress,state:state.name}" \
-    --output text --no-cli-pager | grep $tags > ~/$tags-lab-info/$tags-get-instances.txt
+    --output table --no-cli-pager | grep $tags > ~/$tags-lab-info/$tags-get-instances.txt
 }
 
 ### ssh command into file
