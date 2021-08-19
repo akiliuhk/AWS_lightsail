@@ -13,8 +13,11 @@ function main(){
 local tags=$1
 
 create-key-pair $tags
-create-instances $tags-rancher $tags-rke-m1 $tags-rke-w1 $tags-rke-w2 $tags-rke-w3 $tags
-#create-instance $tags-rancher $tags
+create-instances $tags-rancher $tags
+create-instances $tags-rke-m1 $tags
+create-instances $tags-rke-w1 $tags
+create-instances $tags-rke-w2 $tags
+create-instances $tags-rke-w3 $tags
 check-instance-state $tags
 put-instance-ports $tags-rancher
 put-instance-ports $tags-rke-m1
@@ -39,49 +42,26 @@ chmod 600 ~/$tags-lab-info/$tags-default-key.pem
 
 #aws lightsail download-default-key-pair --output text --query publicKeyBase64 > ~/$1-lab-info/$1-default-key.pub
 #aws lightsail download-default-key-pair --output text --query privateKeyBase64 > ~/$1-lab-info/$1-default-key.pem
-
 }
-
 
 ### create AWS Lightsail VM
 function create-instances(){
 local VMname1=$1
-local VMname2=$2
-local VMname3=$3
-local VMname4=$4
-local VMname5=$5
-local tags=$6
-
-aws lightsail create-instances \
-    --region ap-southeast-1 \
-    --instance-names {"$VMname1","$VMname2","$VMname3","$VMname4","$VMname5"} \
-    --availability-zone ap-southeast-1a \
-    --blueprint-id opensuse_15_2 \
-    --bundle-id medium_2_0 \
-    --ip-address-type ipv4 \
-    --key-pair-name $tags-default-key \
-    --user-data "systemctl enable docker;systemctl start docker;" \
-    --tags key=$tags --no-cli-pager
-}
-
-### create AWS Lightsail VM
-function create-instance(){
-local VMname1=$1
 local tags=$2
 
 aws lightsail create-instances \
-    --region ap-southeast-1 \
-    --instance-names "$VMname1" \
-    --availability-zone ap-southeast-1a \
-    --blueprint-id opensuse_15_2 \
-    --bundle-id nano_2_0 \
-    --ip-address-type ipv4 \
-    --key-pair-name $tags-default-key \
-    --user-data "systemctl enable docker;systemctl start docker;" \
-    --tags key=$tags --no-cli-pager
+  --region ap-southeast-1 \
+  --instance-names $VMname1 \
+  --availability-zone ap-southeast-1a \
+  --blueprint-id opensuse_15_2 \
+  --bundle-id medium_2_0 \
+  --ip-address-type ipv4 \
+  --key-pair-name $tags-default-key \
+  --user-data "systemctl enable docker;systemctl start docker;hostnamectl set-hostname $VMname1;"
+  --tags key=$tags \
+  --no-cli-pager
 }
-
-#   --instance-names {"$VMname1","$VMname2","$VMname3","$VMname4","$VMname5"} \
+#   --bundle-id nano_2_0 \
 #   --bundle-id medium_2_0 \
 
 ### chekc if VM provision
