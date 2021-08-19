@@ -22,10 +22,10 @@ put-instance-ports $tags-rke-w1
 put-instance-ports $tags-rke-w2
 put-instance-ports $tags-rke-w3
 ssh-file $tags $tags-rancher
-#ssh-file $tags $tags-rke-m1
-#ssh-file $tags $tags-rke-w1
-#ssh-file $tags $tags-rke-w2
-#ssh-file $tags $tags-rke-w3
+ssh-file $tags $tags-rke-m1
+ssh-file $tags $tags-rke-w1
+ssh-file $tags $tags-rke-w2
+ssh-file $tags $tags-rke-w3
 }
 
 
