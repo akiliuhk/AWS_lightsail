@@ -24,7 +24,8 @@ ssh-file $tags $tags-rke-w3
 ### create key pair for each $tag 
 function create-key-pair (){
 local tags=$1
-aws lightsail create-key-pair --key-pair-name $1-default-key --output yaml --no-cli-pager
+
+  aws lightsail create-key-pair --key-pair-name $1-default-key --output yaml --no-cli-pager
 }
 
 
@@ -37,17 +38,14 @@ local VMname4=$4
 local VMname5=$5
 local tags=$6
 
-
-
-
-aws lightsail create-instances \
+  aws lightsail create-instances \
     --region ap-southeast-1 \
     --instance-names {"$VMname1","$VMname2","$VMname3","$VMname4","$VMname5"} \
     --availability-zone ap-southeast-1a \
     --blueprint-id opensuse_15_2 \
     --bundle-id medium_2_0 \
     --ip-address-type ipv4 \
-    --key-pair-name $6-default-key
+    --key-pair-name $6-default-key \
     --user-data "systemctl enable docker;systemctl start docker;" \
     --tags key=$tags --no-cli-pager | grep status
 }
