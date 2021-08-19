@@ -57,7 +57,7 @@ aws lightsail create-instances \
   --bundle-id medium_2_0 \
   --ip-address-type ipv4 \
   --key-pair-name $tags-default-key \
-  --user-data "systemctl enable docker;systemctl start docker;hostnamectl set-hostname $VMname1;"
+  --user-data "systemctl enable docker;systemctl start docker;hostnamectl set-hostname $VMname1;" \
   --tags key=$tags \
   --no-cli-pager
 }
