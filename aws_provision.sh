@@ -27,6 +27,7 @@ ssh-file $tags $tags-rke-w1
 ssh-file $tags $tags-rke-w2
 ssh-file $tags $tags-rke-w3
 tar-file $tags
+html-file $tags $tags-rancher
 }
 
 
@@ -110,6 +111,26 @@ local VMname=$2
 local ip=`aws lightsail get-instance --instance-name $VMname --query instance.publicIpAddress --no-cli-pager`
 echo "ssh -i ~/$tags-lab-info/$tags-default-key.pem -o StrictHostKeyChecking=no ec2-user@"$ip > ~/$tags-lab-info/ssh-$VMname.sh
 chmod 755 ~/$tags-lab-info/ssh-$VMname.sh
+}
+
+### ssh command into file
+function html-file(){
+local tags=$1
+local VMname=$2
+local ip=`aws lightsail get-instance --instance-name $VMname --query instance.publicIpAddress --output text --no-cli-pager`
+
+cd ~/$tags-lab-info
+
+cat > $VMname.html << EOF
+<html>
+<head>
+<meta http-equiv="refresh" content="0; url=https://$ip" />
+</head>
+</html>
+EOF
+
+chmod 755 ~/$tags-lab-info/$VMname.html
+
 }
 
 ### tar lab folder
