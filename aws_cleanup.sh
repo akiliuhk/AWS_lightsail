@@ -4,8 +4,9 @@
 function delete-instance(){
 
 local tags=$1
-rm -fr ~/$tags-lab-info/
-rm -f $tags-lab-info.tar.gz
+rm -f ~/$tags-lab-info/*
+rmdir ~/$tags-lab-info
+rm -f ~/$tags-lab-info.tar.gz
 aws lightsail delete-key-pair --key-pair-name $tags-default-key --output text --no-cli-pager
 
 aws lightsail delete-instance --region ap-southeast-1  --instance-name $tags-rancher --output text --no-cli-pager
