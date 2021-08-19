@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 ### get AWS Lightsail bundles
 #aws lightsail get-bundles --region ap-southeast-1 --query 'bundles[].{price:price,cpuCount:cpuCount,ramSizeInGb:ramSizeInGb,diskSizeInGb:diskSizeInGb,bundleId:bundleId,instanceType:instanceType,supportedPlatforms:supportedPlatforms[0]}' --output table  --no-cli-pager
 
@@ -9,9 +8,7 @@
 
 ### main function
 function main(){
-    
 local tags=$1
-
 create-key-pair $tags
 create-instances $tags-rancher $tags
 create-instances $tags-rke-m1 $tags
@@ -36,7 +33,6 @@ ssh-file $tags $tags-rke-w3
 function create-key-pair (){
 local tags=$1
 mkdir -p ~/$1-lab-info/
-
 aws lightsail create-key-pair --key-pair-name $tags-default-key --output text --query privateKeyBase64 > ~/$tags-lab-info/$tags-default-key.pem
 chmod 600 ~/$tags-lab-info/$tags-default-key.pem
 
@@ -48,13 +44,12 @@ chmod 600 ~/$tags-lab-info/$tags-default-key.pem
 function create-instances(){
 local VMname1=$1
 local tags=$2
-
 aws lightsail create-instances \
   --region ap-southeast-1 \
   --instance-names $VMname1 \
   --availability-zone ap-southeast-1a \
   --blueprint-id opensuse_15_2 \
-  --bundle-id medium_2_0 \
+  --bundle-id nano_2_0 \
   --ip-address-type ipv4 \
   --key-pair-name $tags-default-key \
   --user-data "systemctl enable docker;systemctl start docker;hostnamectl set-hostname $VMname1;" \
@@ -72,7 +67,7 @@ sleep 10
 get-instances $tags
 while :
 do
-  if grep -q pending ~/$1-lab-info/$1-get-instances.txt
+  if grep -q pending ~/$tags-lab-info/$tags-get-instances.txt
   then
     echo 'pending VM provisioning...'
     get-instances $tags
@@ -87,9 +82,7 @@ done
 
 ### open ports for AWS Lightsail VM
 function put-instance-ports(){
-
 local VMname=$1
-
 aws lightsail put-instance-public-ports \
 --port-infos \
 "fromPort=22,toPort=22,protocol=TCP" \
@@ -102,9 +95,10 @@ aws lightsail put-instance-public-ports \
 
 ### get AWS Lightsail instance
 function get-instances(){
+local tags=$1
 aws lightsail get-instances --region ap-southeast-1 \
-    --query 'instances[].{publicIpAddress:publicIpAddress,privateIpAddress:privateIpAddress,$1-VM:name,state:state.name}' \
-    --output table --no-cli-pager | grep $1 > ~/$1-lab-info/$1-get-instances.txt
+    --query "instances[].{$tags:name,publicIpAddress:publicIpAddress,privateIpAddress:privateIpAddress,state:state.name}" \
+    --output table --no-cli-pager | grep $tags > ~/$tags-lab-info/$tags-get-instances.txt
 }
 
 ### ssh command into file
