@@ -26,6 +26,7 @@ ssh-file $tags $tags-rke-m1
 ssh-file $tags $tags-rke-w1
 ssh-file $tags $tags-rke-w2
 ssh-file $tags $tags-rke-w3
+tar-file $tags
 }
 
 
@@ -42,17 +43,17 @@ chmod 600 ~/$tags-lab-info/$tags-default-key.pem
 
 ### create AWS Lightsail VM
 function create-instances(){
-local VMname1=$1
+local VMname=$1
 local tags=$2
 aws lightsail create-instances \
   --region ap-southeast-1 \
-  --instance-names $VMname1 \
+  --instance-names $VMname \
   --availability-zone ap-southeast-1a \
   --blueprint-id opensuse_15_2 \
   --bundle-id medium_2_0 \
   --ip-address-type ipv4 \
   --key-pair-name $tags-default-key \
-  --user-data "systemctl enable docker;systemctl start docker;hostnamectl set-hostname $VMname1;" \
+  --user-data "systemctl enable docker;systemctl start docker;hostnamectl set-hostname $VMname;" \
   --tags key=$tags \
   --output text \
   --no-cli-pager
@@ -98,18 +99,24 @@ aws lightsail put-instance-public-ports \
 function get-instances(){
 local tags=$1
 aws lightsail get-instances --region ap-southeast-1 \
-    --query "instances[].{$tags:name,publicIpAddress:publicIpAddress,privateIpAddress:privateIpAddress,state:state.name}" \
-    --output table --no-cli-pager | grep $tags > ~/$tags-lab-info/$tags-get-instances.txt
+--query "instances[].{$tags:name,publicIpAddress:publicIpAddress,privateIpAddress:privateIpAddress,state:state.name}" \
+--output table --no-cli-pager | grep $tags > ~/$tags-lab-info/$tags-get-instances.txt
 }
 
 ### ssh command into file
 function ssh-file(){
 local tags=$1
-local ip=`aws lightsail get-instance --instance-name $2 --query instance.publicIpAddress --no-cli-pager`
-    echo "ssh -i ~/$tags-lab-info/$tags-default-key.pem -o StrictHostKeyChecking=no ec2-user@"$ip > ~/$tags-lab-info/ssh-$2.sh
-    chmod 755 ~/$tags-lab-info/ssh-$2.sh
-    cd ~
-    tar -cvzf $tags-lab-info.tar.gz $tags-lab-info
+local VMname=$2
+local ip=`aws lightsail get-instance --instance-name $VMname --query instance.publicIpAddress --no-cli-pager`
+echo "ssh -i ~/$tags-lab-info/$tags-default-key.pem -o StrictHostKeyChecking=no ec2-user@"$ip > ~/$tags-lab-info/ssh-$VMname.sh
+chmod 755 ~/$tags-lab-info/ssh-$VMname.sh
+}
+
+### tar lab folder
+function tar-file(){
+local tags=$1
+cd ~
+tar -cvzf $tags-lab-info.tar.gz $tags-lab-info
 }
 
 main $1
