@@ -53,6 +53,21 @@ std01-rke-w1 \
 std01-rke-w2 \
 std01-rke-w3 
 
+### example output of the Lab folder
+```
+Lab folder structure
+std01-lab-info                 # Lab environment
+├── ssh-std01-rancher.sh       # rancher server node ssh file
+├── ssh-std01-rke-m1.sh        # rke-cluster-1 master1 node ssh file
+├── ssh-std01-rke-w1.sh        # rke-cluster-1 worker1 node ssh file
+├── ssh-std01-rke-w2.sh        # rke-cluster-1 worker2 node ssh file
+├── ssh-std01-rke-w3.sh        # rke-cluster-1 worker3 node ssh file
+├── std01-default-key.pem      # Lab environment default ssh key
+├── std01-get-instances.txt    # Lab environment IP list
+└── std01-rancher.html         # rancher server html page
+```
+
+
 ### Example aws_list.sh
 
 List AWS Lightsail VM , private IP and public IP
