@@ -9,27 +9,26 @@
 ### main function
 function main(){
 local tags=$1
-# create-key-pair $tags
-# create-instances $tags-rancher $tags
-# create-instances $tags-rke-m1 $tags
-# create-instances $tags-rke-w1 $tags
-# create-instances $tags-rke-w2 $tags
-# create-instances $tags-rke-w3 $tags
+create-key-pair $tags
+create-instances $tags-rancher $tags
+create-instances $tags-rke-m1 $tags
+create-instances $tags-rke-w1 $tags
+create-instances $tags-rke-w2 $tags
+create-instances $tags-rke-w3 $tags
 check-instance-state $tags
-# put-instance-ports $tags-rancher
-# put-instance-ports $tags-rke-m1
-# put-instance-ports $tags-rke-w1
-# put-instance-ports $tags-rke-w2
-# put-instance-ports $tags-rke-w3
+put-instance-ports $tags-rancher
+put-instance-ports $tags-rke-m1
+put-instance-ports $tags-rke-w1
+put-instance-ports $tags-rke-w2
+put-instance-ports $tags-rke-w3
 create-bucket $tags
-# ssh-file $tags $tags-rancher
-# ssh-file $tags $tags-rke-m1
-# ssh-file $tags $tags-rke-w1
-# ssh-file $tags $tags-rke-w2
-# ssh-file $tags $tags-rke-w3
-# tar-file $tags
-# html-file $tags $tags-rancher
-
+ssh-file $tags $tags-rancher
+ssh-file $tags $tags-rke-m1
+ssh-file $tags $tags-rke-w1
+ssh-file $tags $tags-rke-w2
+ssh-file $tags $tags-rke-w3
+tar-file $tags
+html-file $tags $tags-rancher
 }
 
 
@@ -105,7 +104,7 @@ aws lightsail get-instances --region ap-southeast-1 \
 --query "instances[].{$tags:name,publicIpAddress:publicIpAddress,privateIpAddress:privateIpAddress,state:state.name}" \
 --output table --no-cli-pager > ~/$tags-lab-info/$tags-get-instances.txt
 
-sed -i '/SoftEtherVPN/d'  ~/$tags-lab-info/$tags-get-instances.txt
+sed -i "" '/SoftEtherVPN/d'  ~/$tags-lab-info/$tags-get-instances.txt
 }
 
 ### ssh command into file
@@ -150,10 +149,10 @@ local tags=$1
 cd ~
 aws lightsail create-bucket --bucket-name $tags-s3-bucket --bundle-id small_1_0 --output table --no-cli-pager > ~/$tags-lab-info/$tags-s3-bucket.txt
 
-sed -i '15,$d'  ~/$tags-lab-info/$tags-s3-bucket.txt
+sed -i "" '16,$d'  ~/$tags-lab-info/$tags-s3-bucket.txt
 
 aws lightsail create-bucket-access-key --bucket-name $tags-s3-bucket --output table --no-cli-pager > ~/$tags-lab-info/$tags-s3-bucket-accessKeys.txt
-sed -i '11,$d'  ~/$tags-lab-info/$tags-s3-bucket-accessKeys.txt
+sed -i "" '11,$d'  ~/$tags-lab-info/$tags-s3-bucket-accessKeys.txt
 }
 
 main $1
