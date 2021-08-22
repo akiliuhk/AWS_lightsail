@@ -9,25 +9,27 @@
 ### main function
 function main(){
 local tags=$1
-create-key-pair $tags
-create-instances $tags-rancher $tags
-create-instances $tags-rke-m1 $tags
-create-instances $tags-rke-w1 $tags
-create-instances $tags-rke-w2 $tags
-create-instances $tags-rke-w3 $tags
+# create-key-pair $tags
+# create-instances $tags-rancher $tags
+# create-instances $tags-rke-m1 $tags
+# create-instances $tags-rke-w1 $tags
+# create-instances $tags-rke-w2 $tags
+# create-instances $tags-rke-w3 $tags
 check-instance-state $tags
-put-instance-ports $tags-rancher
-put-instance-ports $tags-rke-m1
-put-instance-ports $tags-rke-w1
-put-instance-ports $tags-rke-w2
-put-instance-ports $tags-rke-w3
-ssh-file $tags $tags-rancher
-ssh-file $tags $tags-rke-m1
-ssh-file $tags $tags-rke-w1
-ssh-file $tags $tags-rke-w2
-ssh-file $tags $tags-rke-w3
-tar-file $tags
-html-file $tags $tags-rancher
+# put-instance-ports $tags-rancher
+# put-instance-ports $tags-rke-m1
+# put-instance-ports $tags-rke-w1
+# put-instance-ports $tags-rke-w2
+# put-instance-ports $tags-rke-w3
+create-bucket $tags
+# ssh-file $tags $tags-rancher
+# ssh-file $tags $tags-rke-m1
+# ssh-file $tags $tags-rke-w1
+# ssh-file $tags $tags-rke-w2
+# ssh-file $tags $tags-rke-w3
+# tar-file $tags
+# html-file $tags $tags-rancher
+
 }
 
 
@@ -56,7 +58,7 @@ aws lightsail create-instances \
   --key-pair-name $tags-default-key \
   --user-data "systemctl enable docker;systemctl start docker;hostnamectl set-hostname $VMname;" \
   --tags key=$tags \
-  --output text \
+  --output table \
   --no-cli-pager
 }
 #   --bundle-id nano_2_0 \
@@ -92,7 +94,7 @@ aws lightsail put-instance-public-ports \
 "fromPort=80,toPort=80,protocol=TCP" \
 "fromPort=443,toPort=443,protocol=TCP" \
 "fromPort=8,toPort=-1,protocol=ICMP" \
---instance-name $VMname --output text --no-cli-pager
+--instance-name $VMname --output table --no-cli-pager
 }
 
 
@@ -101,14 +103,16 @@ function get-instances(){
 local tags=$1
 aws lightsail get-instances --region ap-southeast-1 \
 --query "instances[].{$tags:name,publicIpAddress:publicIpAddress,privateIpAddress:privateIpAddress,state:state.name}" \
---output table --no-cli-pager | grep $tags > ~/$tags-lab-info/$tags-get-instances.txt
+--output table --no-cli-pager > ~/$tags-lab-info/$tags-get-instances.txt
+
+sed -i '/SoftEtherVPN/d'  ~/$tags-lab-info/$tags-get-instances.txt
 }
 
 ### ssh command into file
 function ssh-file(){
 local tags=$1
 local VMname=$2
-local ip=`aws lightsail get-instance --instance-name $VMname --query instance.publicIpAddress --no-cli-pager`
+local ip=`aws lightsail get-instance --instance-name $VMname --query 'instance.publicIpAddress' --output text --no-cli-pager`
 echo "ssh -i ~/$tags-lab-info/$tags-default-key.pem -o StrictHostKeyChecking=no ec2-user@"$ip > ~/$tags-lab-info/ssh-$VMname.sh
 chmod 755 ~/$tags-lab-info/ssh-$VMname.sh
 }
@@ -117,7 +121,7 @@ chmod 755 ~/$tags-lab-info/ssh-$VMname.sh
 function html-file(){
 local tags=$1
 local VMname=$2
-local ip=`aws lightsail get-instance --instance-name $VMname --query instance.publicIpAddress --output text --no-cli-pager`
+local ip=`aws lightsail get-instance --instance-name $VMname --query 'instance.publicIpAddress' --output text --no-cli-pager`
 
 cd ~/$tags-lab-info
 
@@ -138,6 +142,18 @@ function tar-file(){
 local tags=$1
 cd ~
 tar -cvzf $tags-lab-info.tar.gz $tags-lab-info
+}
+
+
+function create-bucket(){
+local tags=$1
+cd ~
+aws lightsail create-bucket --bucket-name $tags-s3-bucket --bundle-id small_1_0 --output table --no-cli-pager > ~/$tags-lab-info/$tags-s3-bucket.txt
+
+sed -i '15,$d'  ~/$tags-lab-info/$tags-s3-bucket.txt
+
+aws lightsail create-bucket-access-key --bucket-name $tags-s3-bucket --output table --no-cli-pager > ~/$tags-lab-info/$tags-s3-bucket-accessKeys.txt
+sed -i '11,$d'  ~/$tags-lab-info/$tags-s3-bucket-accessKeys.txt
 }
 
 main $1

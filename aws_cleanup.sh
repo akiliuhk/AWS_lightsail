@@ -18,6 +18,9 @@ aws lightsail delete-instance --region ap-southeast-1  --instance-name $tags-rke
 aws lightsail delete-instance --region ap-southeast-1  --instance-name $tags-rke-w2 --output text --no-cli-pager
 
 aws lightsail delete-instance --region ap-southeast-1  --instance-name $tags-rke-w3 --output text --no-cli-pager
+
+aws lightsail delete-bucket --bucket-name $tags-s3-bucket --force-delete --output text --no-cli-pager
+
 }
 
 delete-instance $1
