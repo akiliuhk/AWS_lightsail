@@ -147,11 +147,19 @@ tar -cvzf $tags-lab-info.tar.gz $tags-lab-info
 function create-bucket(){
 local tags=$1
 cd ~
-aws lightsail create-bucket --bucket-name $tags-s3-bucket --bundle-id small_1_0 --output table --no-cli-pager > ~/$tags-lab-info/$tags-s3-bucket.txt
+aws lightsail create-bucket \
+  --bucket-name $tags-s3-bucket \
+  --bundle-id small_1_0 \
+  --output table \
+  --no-cli-pager > ~/$tags-lab-info/$tags-s3-bucket.txt
 
 sed -i "" '16,$d'  ~/$tags-lab-info/$tags-s3-bucket.txt
 
-aws lightsail create-bucket-access-key --bucket-name $tags-s3-bucket --output table --no-cli-pager > ~/$tags-lab-info/$tags-s3-bucket-accessKeys.txt
+aws lightsail create-bucket-access-key \
+  --bucket-name $tags-s3-bucket \
+  --output table \
+  --no-cli-pager > ~/$tags-lab-info/$tags-s3-bucket-accessKeys.txt
+  
 sed -i "" '11,$d'  ~/$tags-lab-info/$tags-s3-bucket-accessKeys.txt
 }
 
