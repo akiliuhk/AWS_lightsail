@@ -128,15 +128,13 @@ local ip=`aws lightsail get-instance --instance-name $VMname --query 'instance.p
 
 cd ~/$tags-lab-info
 
-cat > $VMname_$port.html << EOF
+cat > "$VMname-port-$port.html" << EOF
 <html>
 <head>
 <meta http-equiv="refresh" content="0; url=http://$ip:$port" />
 </head>
 </html>
 EOF
-
-chmod 755 ~/$tags-lab-info/$VMname.html
 
 }
 
