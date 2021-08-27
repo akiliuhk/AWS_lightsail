@@ -27,7 +27,9 @@ ssh-file $tags $tags-rke-m1
 ssh-file $tags $tags-rke-w1
 ssh-file $tags $tags-rke-w2
 ssh-file $tags $tags-rke-w3
-html-file $tags $tags-rancher
+html-file $tags $tags-rancher 80
+html-file $tags $tags-rke-w1 30080
+html-file $tags $tags-rke-w1 31080
 tar-file $tags
 }
 
@@ -92,6 +94,8 @@ aws lightsail put-instance-public-ports \
 "fromPort=22,toPort=22,protocol=TCP" \
 "fromPort=80,toPort=80,protocol=TCP" \
 "fromPort=443,toPort=443,protocol=TCP" \
+"fromPort=6443,toPort=6443,protocol=TCP" \
+"fromPort=30000,toPort=32767,protocol=TCP" \
 "fromPort=8,toPort=-1,protocol=ICMP" \
 --instance-name $VMname --output table --no-cli-pager
 }
@@ -102,9 +106,8 @@ function get-instances(){
 local tags=$1
 aws lightsail get-instances --region ap-southeast-1 \
 --query "instances[].{$tags:name,publicIpAddress:publicIpAddress,privateIpAddress:privateIpAddress,state:state.name}" \
---output table --no-cli-pager > ~/$tags-lab-info/$tags-get-instances.txt
+--output table --no-cli-pager | grep $tags > ~/$tags-lab-info/$tags-get-instances.txt
 
-sed -i "" '/SoftEtherVPN/d'  ~/$tags-lab-info/$tags-get-instances.txt
 }
 
 ### ssh command into file
@@ -120,14 +123,15 @@ chmod 755 ~/$tags-lab-info/ssh-$VMname.sh
 function html-file(){
 local tags=$1
 local VMname=$2
+local port=$3
 local ip=`aws lightsail get-instance --instance-name $VMname --query 'instance.publicIpAddress' --output text --no-cli-pager`
 
 cd ~/$tags-lab-info
 
-cat > $VMname.html << EOF
+cat > $VMname_$port.html << EOF
 <html>
 <head>
-<meta http-equiv="refresh" content="0; url=https://$ip" />
+<meta http-equiv="refresh" content="0; url=http://$ip:$port" />
 </head>
 </html>
 EOF
