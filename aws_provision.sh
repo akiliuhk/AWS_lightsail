@@ -27,8 +27,8 @@ ssh-file $tags $tags-rke-m1
 ssh-file $tags $tags-rke-w1
 ssh-file $tags $tags-rke-w2
 ssh-file $tags $tags-rke-w3
-tar-file $tags
 html-file $tags $tags-rancher
+tar-file $tags
 }
 
 
