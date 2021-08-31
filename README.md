@@ -1,8 +1,7 @@
 # Objective
-this is a pre-defined AWS Lightsail script to provision instances to kick start a Rancher demo environment for workshop.
+this is a pre-defined AWS Lightsail script to provision instances to kickstart a Rancher environment for workshop.
 
 the script will provision 5 VM and S3 bucket on Singapore ap-southeast-1 with ***medium size (2 CPU,4G RAM,80G SSD)*** and ***opensuse_15_2*** with tags < std01 > 
-
 
 
 ## Rancher workshop sizing and budget
