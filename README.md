@@ -3,7 +3,7 @@ this script is to provision AWS Lightsail instances for Rancher workshop.
 
 - to start using this script, you have to install AWS CLI v2 and configure your own AWS credential.
 
-- the script will provision 5 VM and S3 bucket on Singapore **ap-southeast-1** with **medium** size with tags < std01>
+- the script will provision 5 VM and S3 bucket on Singapore **ap-southeast-1** with **medium_2_0** size with tags < std01>
   
 - Lab environment is located at AWS Lightsail with
 2 vCPU | 4GB RAM | 80GB Disk | OS: OpenSUSE Leap 15.2
