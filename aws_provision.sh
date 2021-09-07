@@ -38,9 +38,10 @@ tar-file $tags
 function create-key-pair (){
 local tags=$1
 mkdir -p ~/$1-lab-info/
+sleep 3
 aws lightsail create-key-pair --key-pair-name $tags-default-key --output text --query privateKeyBase64 > ~/$tags-lab-info/$tags-default-key.pem
 chmod 600 ~/$tags-lab-info/$tags-default-key.pem
-sleep 5
+sleep 3
 #aws lightsail download-default-key-pair --output text --query publicKeyBase64 > ~/$1-lab-info/$1-default-key.pub
 #aws lightsail download-default-key-pair --output text --query privateKeyBase64 > ~/$1-lab-info/$1-default-key.pem
 }
