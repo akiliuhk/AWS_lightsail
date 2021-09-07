@@ -9,6 +9,7 @@
 ### main function
 function main(){
 local tags=$1
+create-key-pair $tags
 create-instances $tags-rancher $tags
 create-instances $tags-rke-m1 $tags
 create-instances $tags-rke-w1 $tags
@@ -21,7 +22,6 @@ put-instance-ports $tags-rke-w1
 put-instance-ports $tags-rke-w2
 put-instance-ports $tags-rke-w3
 create-bucket $tags
-create-key-pair $tags
 ssh-file $tags $tags-rancher
 ssh-file $tags $tags-rke-m1
 ssh-file $tags $tags-rke-w1
@@ -40,7 +40,7 @@ local tags=$1
 mkdir -p ~/$1-lab-info/
 aws lightsail create-key-pair --key-pair-name $tags-default-key --output text --query privateKeyBase64 > ~/$tags-lab-info/$tags-default-key.pem
 chmod 600 ~/$tags-lab-info/$tags-default-key.pem
-
+sleep 5
 #aws lightsail download-default-key-pair --output text --query publicKeyBase64 > ~/$1-lab-info/$1-default-key.pub
 #aws lightsail download-default-key-pair --output text --query privateKeyBase64 > ~/$1-lab-info/$1-default-key.pem
 }
