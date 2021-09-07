@@ -9,7 +9,6 @@
 ### main function
 function main(){
 local tags=$1
-create-key-pair $tags
 create-instances $tags-rancher $tags
 create-instances $tags-rke-m1 $tags
 create-instances $tags-rke-w1 $tags
@@ -22,6 +21,7 @@ put-instance-ports $tags-rke-w1
 put-instance-ports $tags-rke-w2
 put-instance-ports $tags-rke-w3
 create-bucket $tags
+create-key-pair $tags
 ssh-file $tags $tags-rancher
 ssh-file $tags $tags-rke-m1
 ssh-file $tags $tags-rke-w1
