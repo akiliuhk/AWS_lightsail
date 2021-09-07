@@ -10,6 +10,7 @@
 function main(){
 local tags=$1
 create-key-pair $tags
+create-bucket $tags
 create-instances $tags-rancher $tags
 create-instances $tags-rke-m1 $tags
 create-instances $tags-rke-w1 $tags
@@ -21,7 +22,6 @@ put-instance-ports $tags-rke-m1
 put-instance-ports $tags-rke-w1
 put-instance-ports $tags-rke-w2
 put-instance-ports $tags-rke-w3
-create-bucket $tags
 ssh-file $tags $tags-rancher
 ssh-file $tags $tags-rke-m1
 ssh-file $tags $tags-rke-w1
@@ -38,10 +38,9 @@ tar-file $tags
 function create-key-pair (){
 local tags=$1
 mkdir -p ~/$1-lab-info/
-sleep 3
+sleep 1
 aws lightsail create-key-pair --key-pair-name $tags-default-key --output text --query privateKeyBase64 > ~/$tags-lab-info/$tags-default-key.pem
 chmod 600 ~/$tags-lab-info/$tags-default-key.pem
-sleep 3
 #aws lightsail download-default-key-pair --output text --query publicKeyBase64 > ~/$1-lab-info/$1-default-key.pub
 #aws lightsail download-default-key-pair --output text --query privateKeyBase64 > ~/$1-lab-info/$1-default-key.pem
 }
@@ -50,12 +49,13 @@ sleep 3
 function create-instances(){
 local VMname=$1
 local tags=$2
+sleep 1
 aws lightsail create-instances \
   --region ap-southeast-1 \
   --instance-names $VMname \
   --availability-zone ap-southeast-1a \
   --blueprint-id opensuse_15_2 \
-  --bundle-id medium_2_0 \
+  --bundle-id large_2_0 \
   --ip-address-type ipv4 \
   --key-pair-name $tags-default-key \
   --user-data "systemctl enable docker;systemctl start docker;hostnamectl set-hostname $VMname;" \
@@ -70,7 +70,7 @@ aws lightsail create-instances \
 function check-instance-state(){
 local $tags=$1
 mkdir -p ~/$1-lab-info/
-sleep 10
+
 get-instances $tags
 while :
 do
@@ -90,6 +90,7 @@ done
 ### open ports for AWS Lightsail VM
 function put-instance-ports(){
 local VMname=$1
+sleep 1
 aws lightsail put-instance-public-ports \
 --port-infos \
 "fromPort=22,toPort=22,protocol=TCP" \
@@ -154,11 +155,13 @@ tar -cvzf $tags-lab-info.tar.gz $tags-lab-info
 function create-bucket(){
 local tags=$1
 cd ~
+
 aws lightsail create-bucket \
   --bucket-name $tags-s3-bucket \
   --bundle-id small_1_0 \
   --output table \
   --no-cli-pager > ~/$tags-lab-info/$tags-s3-bucket.txt
+sleep 1
 
 sed -i "" '16,$d'  ~/$tags-lab-info/$tags-s3-bucket.txt
 
@@ -166,7 +169,8 @@ aws lightsail create-bucket-access-key \
   --bucket-name $tags-s3-bucket \
   --output table \
   --no-cli-pager > ~/$tags-lab-info/$tags-s3-bucket-accessKeys.txt
-  
+sleep 1
+
 sed -i "" '11,$d'  ~/$tags-lab-info/$tags-s3-bucket-accessKeys.txt
 }
 
