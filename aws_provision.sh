@@ -55,7 +55,7 @@ aws lightsail create-instances \
   --instance-names $VMname \
   --availability-zone ap-southeast-1a \
   --blueprint-id opensuse_15_2 \
-  --bundle-id large_2_0 \
+  --bundle-id medium_2_0 \
   --ip-address-type ipv4 \
   --key-pair-name $tags-default-key \
   --user-data "systemctl enable docker;systemctl start docker;hostnamectl set-hostname $VMname;" \
