@@ -6,7 +6,7 @@ function install_rancher() {
   cd ~/$tags-lab-info
   ssh -i $tags-default-key.pem -o StrictHostKeyChecking=no ec2-user@$ip 'sudo docker run -d --restart=unless-stopped -p 80:80 -p 443:443 --privileged rancher/rancher:latest'
   container=`ssh -i $tags-default-key.pem -o StrictHostKeyChecking=no ec2-user@$ip 'sudo docker ps -q'`
-  sleep 180
+  sleep 60
   ssh -i $tags-default-key.pem -o StrictHostKeyChecking=no ec2-user@$ip "sudo docker logs $container 2>&1 | grep Password:"
 }
 
