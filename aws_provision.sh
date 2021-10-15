@@ -49,7 +49,8 @@ chmod 600 ~/$tags-lab-info/$tags-default-key.pem
 function create-instances(){
 local VMname=$1
 local tags=$2
-sleep 1
+
+sleep 3
 aws lightsail create-instances \
   --region ap-southeast-1 \
   --instance-names $VMname \
@@ -58,7 +59,7 @@ aws lightsail create-instances \
   --bundle-id medium_2_0 \
   --ip-address-type ipv4 \
   --key-pair-name $tags-default-key \
-  --user-data cloud-init.txt \
+  --user-data "systemctl enable docker;systemctl start docker;hostnamectl set-hostname $VMname;" \
   --tags key=$tags \
   --output table \
   --no-cli-pager

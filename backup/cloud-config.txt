@@ -1,5 +1,4 @@
 #cloud-config
-
 packages:
   - curl
   - sudo
@@ -19,6 +18,6 @@ system_info:
     groups: [docker]
 
 runcmd:
-  - [sudo, systemctl, enable, docker]
-  - [sudo, systemctl, start, docker]
+  - sudo systemctl enable docker
+  - sudo systemctl start docker
 
