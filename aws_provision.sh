@@ -58,11 +58,13 @@ aws lightsail create-instances \
   --bundle-id medium_2_0 \
   --ip-address-type ipv4 \
   --key-pair-name $tags-default-key \
-  --user-data "systemctl enable docker;systemctl start docker;hostnamectl set-hostname $VMname;" \
+  --user-data cloud-init.txt \
   --tags key=$tags \
   --output table \
   --no-cli-pager
 }
+
+#   --user-data "systemctl enable docker;systemctl start docker;hostnamectl set-hostname $VMname;" \
 #   --bundle-id nano_2_0 \
 #   --bundle-id medium_2_0 \
 
