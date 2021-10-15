@@ -49,6 +49,7 @@ chmod 600 ~/$tags-lab-info/$tags-default-key.pem
 function create-instances(){
 local VMname=$1
 local tags=$2
+cd ~/GitHub/AWS_lightsail
 
 sleep 3
 aws lightsail create-instances \
@@ -66,6 +67,7 @@ aws lightsail create-instances \
 }
 
 #   --user-data "systemctl enable docker;systemctl start docker;hostnamectl set-hostname $VMname;" \
+#   --user-data file://cloud-config.txt \
 #   --bundle-id nano_2_0 \
 #   --bundle-id medium_2_0 \
 
