@@ -107,6 +107,7 @@ aws lightsail put-instance-public-ports \
 "fromPort=10250,toPort=10250,protocol=TCP" \
 "fromPort=10254,toPort=10254,protocol=TCP" \
 "fromPort=30000,toPort=32767,protocol=TCP" \
+"fromPort=30000,toPort=32767,protocol=UDP" \
 "fromPort=8,toPort=-1,protocol=ICMP" \
 --instance-name $VMname --output table --no-cli-pager
 }
