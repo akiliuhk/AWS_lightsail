@@ -6,16 +6,30 @@
 ### get AWS lightsail blueprint
 #aws lightsail get-blueprints --region ap-southeast-1 --query 'blueprints[].{blueprintId:blueprintId,name:name,group:group,productUrl:productUrl,platform:platform}' --output table --no-cli-pager
 
+
+# +-----------------+-----------+---------------+---------------+--------+---------------+----------------------+
+# |    bundleId     | cpuCount  | diskSizeInGb  | instanceType  | price  |  ramSizeInGb  | supportedPlatforms   |
+# +-----------------+-----------+---------------+---------------+--------+---------------+----------------------+
+# |  nano_2_0       |  1        |  20           |  nano         |  3.5   |  0.5          |  LINUX_UNIX          |
+# |  micro_2_0      |  1        |  40           |  micro        |  5.0   |  1.0          |  LINUX_UNIX          |
+# |  small_2_0      |  1        |  60           |  small        |  10.0  |  2.0          |  LINUX_UNIX          |
+# |  medium_2_0     |  2        |  80           |  medium       |  20.0  |  4.0          |  LINUX_UNIX          |
+# |  large_2_0      |  2        |  160          |  large        |  40.0  |  8.0          |  LINUX_UNIX          |
+# |  xlarge_2_0     |  4        |  320          |  xlarge       |  80.0  |  16.0         |  LINUX_UNIX          |
+# |  2xlarge_2_0    |  8        |  640          |  2xlarge      |  160.0 |  32.0         |  LINUX_UNIX          | 
+# +-----------------+-----------+---------------+---------------+--------+---------------+----------------------+
+
+
 ### main function
 function main(){
 local tags=$1
 create-key-pair $tags
 create-bucket $tags
-create-instances $tags-rancher $tags
-create-instances $tags-rke-m1 $tags
-create-instances $tags-rke-w1 $tags
-create-instances $tags-rke-w2 $tags
-create-instances $tags-rke-w3 $tags
+create-instances $tags-rancher $tags medium_2_0
+create-instances $tags-rke-m1 $tags medium_2_0
+create-instances $tags-rke-w1 $tags large_2_0
+create-instances $tags-rke-w2 $tags large_2_0
+create-instances $tags-rke-w3 $tags large_2_0
 check-instance-state $tags
 put-instance-ports $tags-rancher
 put-instance-ports $tags-rke-m1
@@ -49,6 +63,7 @@ chmod 600 ~/$tags-lab-info/$tags-default-key.pem
 function create-instances(){
 local VMname=$1
 local tags=$2
+local size=$3
 
 sleep 3
 aws lightsail create-instances \
@@ -56,7 +71,7 @@ aws lightsail create-instances \
   --instance-names $VMname \
   --availability-zone ap-southeast-1a \
   --blueprint-id opensuse_15_2 \
-  --bundle-id medium_2_0 \
+  --bundle-id $size \
   --ip-address-type ipv4 \
   --key-pair-name $tags-default-key \
   --user-data "systemctl enable docker;systemctl start docker;hostnamectl set-hostname $VMname;" \
@@ -70,6 +85,7 @@ aws lightsail create-instances \
 #   --user-data file://cloud-config.txt \
 #   --bundle-id nano_2_0 \
 #   --bundle-id medium_2_0 \
+#   --bundle-id large_2_0 \ 
 
 ### chekc if VM provision
 function check-instance-state(){
