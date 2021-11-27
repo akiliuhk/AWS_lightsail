@@ -129,6 +129,14 @@ aws lightsail put-instance-public-ports \
 }
 
 
+
+#storageOS
+#"fromPort=5701,toPort=5701,protocol=TCP" \
+#"fromPort=5703,toPort=5705,protocol=TCP" \
+#"fromPort=5711,toPort=5711,protocol=TCP" \
+#"fromPort=25705,toPort=25960,protocol=TCP" \
+
+
 ### get AWS Lightsail instance
 function get-instances(){
 local tags=$1
