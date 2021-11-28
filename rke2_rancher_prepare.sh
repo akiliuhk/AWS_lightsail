@@ -11,7 +11,7 @@ function install_rancher() {
 
   export RANCHER_FQDN=rancher.$ip.sslip.io
 
-  ssh -i ~/$tags-lab-info/$tags-default-key.pem -o StrictHostKeyChecking=no ec2-user@$ip './install_rancher.sh'
+  ssh -i ~/$tags-lab-info/$tags-default-key.pem -o StrictHostKeyChecking=no ec2-user@$ip `export RANCHER_FQDN=rancher.$ip.sslip.io;./install_rancher.sh`
 }
 
 
