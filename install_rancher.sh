@@ -71,7 +71,7 @@ echo "Install Rancher ${RANCHER_VERSION} ..."
 #RANCHER_FQDN=edb-rancher.example.com
 helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
 
-#kubectl delete -A ValidatingWebhookConfiguration rke2-ingress-nginx-admission
+kubectl delete -A ValidatingWebhookConfiguration rke2-ingress-nginx-admission
 
 helm install rancher rancher-stable/rancher \
   --namespace cattle-system \
