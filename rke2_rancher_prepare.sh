@@ -6,13 +6,11 @@ function install_rancher() {
   cd ~/GitHub/AWS_lightsail
 #ssh -i $tags-default-key.pem -o StrictHostKeyChecking=no ec2-user@$ip 'sudo docker run -d --restart=unless-stopped -p 80:80 -p 443:443 --privileged rancher/rancher:latest'
 #container=`ssh -i $tags-default-key.pem -o StrictHostKeyChecking=no ec2-user@$ip 'sudo docker ps -q'`
- 
-  scp -i ~/$tags-lab-info/$tags-default-key.pem  install_rancher.sh ec2-user@$ip:~/install_rancher.sh
+#export RANCHER_FQDN=rancher.$ip.sslip.io
 
-  export RANCHER_FQDN=rancher.$ip.sslip.io
+  scp -i ~/$tags-lab-info/$tags-default-key.pem -o StrictHostKeyChecking=no install_rancher.sh ec2-user@$ip:~/install_rancher.sh
 
-  ssh -i ~/$tags-lab-info/$tags-default-key.pem -o StrictHostKeyChecking=no ec2-user@$ip `export RANCHER_FQDN=rancher.$ip.sslip.io;./install_rancher.sh`
+  ssh -i ~/$tags-lab-info/$tags-default-key.pem -o StrictHostKeyChecking=no ec2-user@$ip './install_rancher.sh'
 }
-
 
 install_rancher $1

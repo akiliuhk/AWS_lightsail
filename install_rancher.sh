@@ -65,13 +65,14 @@ done
 echo "Install Rancher ${RANCHER_VERSION} ..."
 #sudo zypper install -y jq
 #RANCHER_IP=`curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance/network?api-version=2017-08-01" | jq -r '.interface[0].ipv4.ipAddress[].publicIpAddress'`
-#RANCHER_FQDN=rancher.$RANCHER_IP.sslip.io
+RANCHER_IP=`curl -s http://169.254.169.254/latest/meta-data/public-ipv4`
+RANCHER_FQDN=rancher.$RANCHER_IP.sslip.io
 #RANCHER_FQDN=rancher.54.251.1.111.sslip.io 
 
 #RANCHER_FQDN=edb-rancher.example.com
 helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
 
-kubectl delete -A ValidatingWebhookConfiguration rke2-ingress-nginx-admission
+#kubectl delete -A ValidatingWebhookConfiguration rke2-ingress-nginx-admission
 
 helm install rancher rancher-stable/rancher \
   --namespace cattle-system \
