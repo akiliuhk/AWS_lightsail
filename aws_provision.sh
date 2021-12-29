@@ -26,7 +26,7 @@ local tags=$1
 create-key-pair $tags
 create-bucket $tags
 create-instances $tags-rancher $tags medium_2_0
-create-instances $tags-rke-m1 $tags medium_2_0
+create-instances $tags-rke-m1 $tags large_2_0
 create-instances $tags-rke-w1 $tags large_2_0
 create-instances $tags-rke-w2 $tags large_2_0
 create-instances $tags-rke-w3 $tags large_2_0

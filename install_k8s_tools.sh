@@ -15,8 +15,9 @@ sudo mv $HOME/.arkade/bin/kubectl /usr/local/bin/
 
 
 mkdir -p $HOME/.kube
-cp /etc/rancher/rke2/rke2.yaml $HOME/.kube/config
-echo 'export KUBECONFIG=~/.kube/config' >>~/.bashrc
-echo 'alias k=kubectl' >>~/.bashrc
-echo 'complete -F __start_kubectl k' >>~/.bashrc
-echo 'source <(kubectl completion bash)' >>~/.bashrc
+sudo cp /etc/rancher/rke2/rke2.yaml $HOME/.kube/config
+sudo chmod 755 /etc/rancher/rke2/rke2.yaml $HOME/.kube/config
+sudo echo 'export KUBECONFIG=~/.kube/config' >>~/.bashrc
+sudo echo 'alias k=kubectl' >>~/.bashrc
+sudo echo 'complete -F __start_kubectl k' >>~/.bashrc
+sudo echo 'source <(kubectl completion bash)' >>~/.bashrc
