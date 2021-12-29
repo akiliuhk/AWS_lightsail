@@ -19,9 +19,8 @@ sudo mv $HOME/.arkade/bin/kubectl /usr/local/bin/
 # 2. Install Cert Manager
 # 3. Install Rancher using helm chart
 
-export RANCHER_VERSION=2.6.2
 
-echo "Install Rancher Server ${RANCHER_VERSION} using helm chart on RKE2 ..."
+echo "Install Rancher Server using helm chart on RKE2 ..."
 echo "Install RKE2 v1.21 ..."
 sudo bash -c 'curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL="v1.21" sh -'
 sudo mkdir -p /etc/rancher/rke2
@@ -62,19 +61,19 @@ do
 done
 
 # Install Rancher with helm chart
+export RANCHER_VERSION=2.6.3
 echo "Install Rancher ${RANCHER_VERSION} ..."
-#sudo zypper install -y jq
-#RANCHER_IP=`curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance/network?api-version=2017-08-01" | jq -r '.interface[0].ipv4.ipAddress[].publicIpAddress'`
-RANCHER_IP=`curl -s http://169.254.169.254/latest/meta-data/public-ipv4`
-RANCHER_FQDN=rancher.$RANCHER_IP.sslip.io
-#RANCHER_FQDN=rancher.54.251.1.111.sslip.io 
+export RANCHER_IP=`curl -s http://169.254.169.254/latest/meta-data/public-ipv4`
+export RANCHER_FQDN=rancher.${RANCHER_IP}.sslip.io 
 
-#RANCHER_FQDN=edb-rancher.example.com
-helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
+#helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
+helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
 
 #kubectl delete -A ValidatingWebhookConfiguration rke2-ingress-nginx-admission
 
-helm install rancher rancher-stable/rancher \
+#export RANCHER_FQDN=rancher26.example.com
+
+helm install rancher rancher-latest/rancher \
   --namespace cattle-system \
   --set hostname=$RANCHER_FQDN \
   --set replicas=1 \
